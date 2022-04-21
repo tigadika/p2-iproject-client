@@ -79,6 +79,7 @@ export const usePairStore = defineStore({
     arimaErrors: [],
     suggest: "",
     tickerAll: [],
+    query: {},
   }),
   getters: {},
   actions: {
@@ -95,6 +96,7 @@ export const usePairStore = defineStore({
         this.option.title.text = data.data[0].Pair.name;
         this.option.series[0].name = data.data[0].Pair.name;
         this.option.legend.data.push(data.data[0].Pair.name);
+        this.nextStep = "";
 
         const time = data.data.map((el) => {
           const date = new Date(el.server_time * 1000).toLocaleString("en-US", {
@@ -197,6 +199,9 @@ export const usePairStore = defineStore({
         const { data } = await axios.get(`http://localhost:3000/main/pairs`, {
           headers: {
             access_token: localStorage.getItem("access_token"),
+          },
+          params: {
+            search: this.query.search,
           },
         });
 

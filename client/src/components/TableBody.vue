@@ -1,18 +1,21 @@
 <template>
-  <tr @click="detailAction">
-    <th><img :src="ticker.imgUrl" style="width: 20px;" alt=""></th>
-    <td>{{ticker.name}}</td>
-    <td class="text-end">{{formatPrice(last)}}</td>
-    <td class="text-end">{{formatPrice(vol)}}</td>
-    <td class="text-end">{{formatPrice(high)}}</td>
-    <td class="text-end">{{formatPrice(low)}}</td>
-    <td></td>
+  <tr>
+    <th @click="detailAction"><img :src="ticker.imgUrl" style="width: 20px;" alt=""></th>
+    <td @click="detailAction">{{ticker.name}}</td>
+    <td @click="detailAction" class="text-end">{{formatPrice(last)}}</td>
+    <td @click="detailAction" class="text-end">{{formatPrice(vol)}}</td>
+    <td @click="detailAction" class="text-end">{{formatPrice(high)}}</td>
+    <td @click="detailAction" class="text-end">{{formatPrice(low)}}</td>
+    <td class="text-center">
+      <button @click="addToBookmark" class="btn btn-outline-warning btn-sm">Add</button>
+    </td>
   </tr>
 </template>
 
 <script>
 import { mapActions, mapWritableState } from "pinia";
 import { useTickerStore } from "@/stores/ticker.js";
+import { useBookmarkStore } from "@/stores/bookmark.js";
 
   export default {
     data() {
@@ -27,8 +30,12 @@ import { useTickerStore } from "@/stores/ticker.js";
     props: {
       ticker: Object
     },
+    computed: {
+      ...mapWritableState(useBookmarkStore, ["bookmarks"])
+    },
     methods: {
       ...mapActions(useTickerStore, ["getTickerAction"]),
+      ...mapActions(useBookmarkStore, ["addBookmark", "getBookmark2"]),
       async getData() {
         try {
           const {data} = await this.getTickerAction(this.$props.ticker.id)
@@ -39,6 +46,18 @@ import { useTickerStore } from "@/stores/ticker.js";
         } catch (err) {
           console.log(err.response);
         }
+      },
+      async addToBookmark() {
+        try {
+          await this.addBookmark(this.$props.ticker.id)
+
+          const { data } = await this.getBookmark2()
+
+          this.bookmarks = data.data
+        } catch (err) {
+          console.log(err.response);
+        }
+        
       },
       formatPrice(price) {
         return new Intl.NumberFormat("id-ID", {
