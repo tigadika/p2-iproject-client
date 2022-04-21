@@ -86,7 +86,7 @@ export const usePairStore = defineStore({
     async getRecordAction(id) {
       try {
         const { data } = await axios.get(
-          `http://localhost:3000/main/records/${id}`,
+          `https://kriptoku-server.herokuapp.com/main/records/${id}`,
           {
             headers: {
               access_token: localStorage.getItem("access_token"),
@@ -133,7 +133,7 @@ export const usePairStore = defineStore({
     async getTickerAction(id) {
       try {
         const { data } = await axios.get(
-          `http://localhost:3000/main/ticker/${id}`,
+          `https://kriptoku-server.herokuapp.com/main/ticker/${id}`,
           {
             headers: {
               access_token: localStorage.getItem("access_token"),
@@ -150,7 +150,7 @@ export const usePairStore = defineStore({
     async getArima(id) {
       try {
         const { data } = await axios.get(
-          `http://localhost:3000/main/arima/${id}`,
+          `https://kriptoku-server.herokuapp.com/main/arima/${id}`,
           {
             headers: {
               access_token: localStorage.getItem("access_token"),
@@ -196,14 +196,17 @@ export const usePairStore = defineStore({
 
     async getPairsAll() {
       try {
-        const { data } = await axios.get(`http://localhost:3000/main/pairs`, {
-          headers: {
-            access_token: localStorage.getItem("access_token"),
-          },
-          params: {
-            search: this.query.search,
-          },
-        });
+        const { data } = await axios.get(
+          `https://kriptoku-server.herokuapp.com/main/pairs`,
+          {
+            headers: {
+              access_token: localStorage.getItem("access_token"),
+            },
+            params: {
+              search: this.query.search,
+            },
+          }
+        );
 
         this.tickerAll = data.data;
       } catch (err) {
@@ -214,7 +217,7 @@ export const usePairStore = defineStore({
     async postRecord(id) {
       try {
         const { data } = await axios.post(
-          `http://localhost:3000/main/ticker/${id}`,
+          `https://kriptoku-server.herokuapp.com/main/ticker/${id}`,
           {},
           {
             headers: {

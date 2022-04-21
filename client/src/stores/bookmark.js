@@ -10,11 +10,14 @@ export const useBookmarkStore = defineStore({
   actions: {
     async getBookmark() {
       try {
-        const { data } = await axios.get(`http://localhost:3000/saved/pair`, {
-          headers: {
-            access_token: localStorage.getItem("access_token"),
-          },
-        });
+        const { data } = await axios.get(
+          `https://kriptoku-server.herokuapp.com/saved/pair`,
+          {
+            headers: {
+              access_token: localStorage.getItem("access_token"),
+            },
+          }
+        );
 
         this.bookmarks = data.data;
       } catch (err) {
@@ -23,7 +26,7 @@ export const useBookmarkStore = defineStore({
     },
     addBookmark(id) {
       return axios.post(
-        `http://localhost:3000/saved/pair/${id}`,
+        `https://kriptoku-server.herokuapp.com/saved/pair/${id}`,
         {},
         {
           headers: {
@@ -34,7 +37,7 @@ export const useBookmarkStore = defineStore({
     },
 
     getBookmark2() {
-      return axios.get(`http://localhost:3000/saved/pair`, {
+      return axios.get(`https://kriptoku-server.herokuapp.com/saved/pair`, {
         headers: {
           access_token: localStorage.getItem("access_token"),
         },

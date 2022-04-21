@@ -1,7 +1,7 @@
 <template>
   <div class="navbar d-flex flex-row justify-content-between bg-white px-4 py-3 sticky-top">
     <a @click.prevent="" class="navbar-brand" href="#">
-      <img src="/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" alt="">
+      <img src="@/assets/img/Untitled_design__1_-removebg-preview.png" width="30" height="30" alt="">
       Kripto.ku
     </a>
     <div class="ms-auto d-flex flex-row justify-content-between align-items-center">
