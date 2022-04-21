@@ -12,7 +12,7 @@
           <div class="login-wrap p-4 p-md-5">
             <div class="d-flex flex-column align-items-center mb-3">
               <img
-                src="../assets/logoHacktiv.png"
+                src=""
                 alt=""
                 id="imgLogo"
               />
