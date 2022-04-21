@@ -78,6 +78,7 @@ export const usePairStore = defineStore({
     arimaRecords: [],
     arimaErrors: [],
     suggest: "",
+    tickerAll: [],
   }),
   getters: {},
   actions: {
@@ -188,6 +189,36 @@ export const usePairStore = defineStore({
         this.suggest = "BUY";
       } else {
         this.suggest = "HOLD";
+      }
+    },
+
+    async getPairsAll() {
+      try {
+        const { data } = await axios.get(`http://localhost:3000/main/pairs`, {
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+        });
+
+        this.tickerAll = data.data;
+      } catch (err) {
+        console.log(err.response);
+      }
+    },
+
+    async postRecord(id) {
+      try {
+        const { data } = await axios.post(
+          `http://localhost:3000/main/ticker/${id}`,
+          {},
+          {
+            headers: {
+              access_token: localStorage.getItem("access_token"),
+            },
+          }
+        );
+      } catch (err) {
+        console.log(err.response);
       }
     },
   },
