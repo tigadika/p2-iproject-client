@@ -1,97 +1,79 @@
 <template>
-  <div class="row">
-    <div
-      class="top d-flex flex-row mx-3 my-2 justify-content-between align-items-center"
-    >
-      <div class="input-group">
-        <form action="">
-          <input
-            type="search"
-            class="form-control rounded-pill"
-            placeholder="Search"
-          />
-        </form>
-      </div>
-      <div class="mt-2">
-        <h2><i class="bi bi-person-circle"></i></h2>
-      </div>
+  <div class="body d-flex flex-row my-3">
+    <div class="card chart border-0 shadow p-3 me-4">
+      <v-chart
+        class="chart mx-3"
+        :option="this.option"
+        style="width: 95%"
+      ></v-chart>
     </div>
-    <div class="body d-flex flex-row my-3">
-      <div class="card chart border-0 shadow p-3 me-4">
-        <v-chart
-          class="chart mx-3"
-          :option="this.option"
-          style="width: 95%"
-        ></v-chart>
-      </div>
-      <div class="card arima border-0 shadow p-3">
-        <h5>Ticker Data</h5>
-        <br />
-        <table class="table table-borderless">
-          <tbody>
-            <tr>
-              <td>Last</td>
-              <td style="text-align: right">{{ formatPrice(records.last) }}</td>
-            </tr>
-            <tr>
-              <td>High</td>
-              <td style="text-align: right">{{ formatPrice(records.high) }}</td>
-            </tr>
-            <tr>
-              <td>Low</td>
-              <td style="text-align: right">{{ formatPrice(records.low) }}</td>
-            </tr>
-            <tr>
-              <td>Buy</td>
-              <td style="text-align: right">{{ formatPrice(records.buy) }}</td>
-            </tr>
-            <tr>
-              <td>Sell</td>
-              <td style="text-align: right">{{ formatPrice(records.sell) }}</td>
-            </tr>
-            <tr>
-              <td>Vol</td>
-              <td style="text-align: right">
-                {{ formatPrice(records.vol_idr) }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div @click="getSuggest" class="card shadow-sm text-end next-step">
-          <div class="card-body">
-            <h5 class="card-title">Next ARIMA Step</h5>
-            <p class="card-text">{{ formatPrice(nextStep) }}</p>
-          </div>
+    <div class="card arima border-0 shadow p-3">
+      <h5>Ticker Data</h5>
+      <br />
+      <table class="table table-borderless">
+        <tbody>
+          <tr>
+            <td>Last</td>
+            <td style="text-align: right">{{ formatPrice(records.last) }}</td>
+          </tr>
+          <tr>
+            <td>High</td>
+            <td style="text-align: right">{{ formatPrice(records.high) }}</td>
+          </tr>
+          <tr>
+            <td>Low</td>
+            <td style="text-align: right">{{ formatPrice(records.low) }}</td>
+          </tr>
+          <tr>
+            <td>Buy</td>
+            <td style="text-align: right">{{ formatPrice(records.buy) }}</td>
+          </tr>
+          <tr>
+            <td>Sell</td>
+            <td style="text-align: right">{{ formatPrice(records.sell) }}</td>
+          </tr>
+          <tr>
+            <td>Vol</td>
+            <td style="text-align: right">
+              {{ formatPrice(records.vol_idr) }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div @click="getSuggest" class="card shadow-sm text-end next-step">
+        <div class="card-body">
+          <h5 class="card-title">Next ARIMA Step</h5>
+          <p class="card-text">{{ formatPrice(nextStep) }}</p>
         </div>
       </div>
     </div>
-    <div class="body d-flex mt-3 mb-5">
-      <div class="card analysis border-0 shadow p-3">
-        <h4>Analysis</h4>
-        <div class="container my-3 d-flex flex-row">
-          <div class="card suggestion shadow-sm border-0 me-3">
-            <div class="card-body" style="width: 220px">
-              <p class="card-text">Suggestion</p>
-              <h5 class="card-title">{{ suggest }}</h5>
-            </div>
+  </div>
+  <div class="body d-flex mt-3 mb-5">
+    <div class="card analysis border-0 shadow p-3">
+      <h4>Analysis</h4>
+      <div class="container my-3 d-flex flex-row">
+        <div class="card suggestion shadow-sm border-0 me-3">
+          <div class="card-body" style="width: 220px">
+            <p class="card-text">Suggestion</p>
+            <h5 class="card-title">{{ suggest }}</h5>
           </div>
-          <div class="card shadow-sm me-3">
-            <div class="card-body" style="width: 220px">
-              <p class="card-text">Error Term 1</p>
-              <h5 class="card-title">{{ arimaErrors[0] }}</h5>
-            </div>
+        </div>
+        <div class="card shadow-sm me-3">
+          <div class="card-body" style="width: 220px">
+            <p class="card-text">Error Term 1</p>
+            <h5 class="card-title">{{ arimaErrors[0] }}</h5>
           </div>
-          <div class="card shadow-sm me-3">
-            <div class="card-body" style="width: 220px">
-              <p class="card-text">Error Term 2</p>
-              <h5 class="card-title">{{ arimaErrors[1] }}</h5>
-            </div>
+        </div>
+        <div class="card shadow-sm me-3">
+          <div class="card-body" style="width: 220px">
+            <p class="card-text">Error Term 2</p>
+            <h5 class="card-title">{{ arimaErrors[1] }}</h5>
           </div>
-          <div class="card shadow-sm me-3">
-            <div class="card-body" style="width: 220px">
-              <p class="card-text">Alpha / 1-Alpha</p>
-              <h5 class="card-title">0.5 / 95%</h5>
-            </div>
+        </div>
+        <div class="card shadow-sm me-3">
+          <div class="card-body" style="width: 220px">
+            <p class="card-text">Alpha / 1-Alpha</p>
+            <h5 class="card-title">0.5 / 95%</h5>
           </div>
         </div>
       </div>
@@ -135,7 +117,6 @@ export default {
     return {};
   },
   components: {
-    SideBar,
     VChart,
   },
   methods: {
@@ -144,9 +125,12 @@ export default {
       "getTickerAction",
       "getArima",
       "getSuggestion",
+      "postRecord"
     ]),
     getSuggest() {
-      this.getSuggestion()
+      this.getSuggestion();
+      this.getArima(this.$route.params.pairId);
+      this.postRecord(this.$route.params.pairId);
     },
     formatPrice(price) {
       return new Intl.NumberFormat("id-ID", {
@@ -157,12 +141,17 @@ export default {
     },
   },
   computed: {
-    ...mapWritableState(usePairStore, ["records", "option", "nextStep", "suggest", "arimaErrors"]),
+    ...mapWritableState(usePairStore, [
+      "records",
+      "option",
+      "nextStep",
+      "suggest",
+      "arimaErrors",
+    ]),
   },
   mounted() {
-    this.getRecordAction(1);
-    this.getTickerAction(1);
-    this.getArima(1);
+    this.getRecordAction(this.$route.params.pairId);
+    this.getTickerAction(this.$route.params.pairId);
   },
   created() {},
 };
@@ -172,10 +161,7 @@ export default {
 .table > tbody > tr {
   margin-bottom: 20px;
 }
-.row {
-  margin-left: 17rem;
-  width: 75%;
-}
+
 .top {
   height: 50px;
 }
@@ -202,7 +188,7 @@ export default {
   cursor: pointer;
 }
 .suggestion {
-  background-color: #00BF71;
+  background-color: #00bf71;
   color: white;
 }
 </style>

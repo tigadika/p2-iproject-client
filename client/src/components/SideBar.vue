@@ -5,7 +5,7 @@
       <div class="card-body w-100">
         <ul class="list-group">
           <li class="list-group mb-3">
-            <ButtonRound @click="goToLogin"
+            <ButtonRound @click="goToDashboard"
               type="button"
               text="All Coins"
               bgColor="#00BF71"
@@ -42,6 +42,11 @@ export default {
   },
   components: {
     ButtonRound,
+  },
+  methods: {
+    goToDashboard() {
+      this.$router.push("/dashboard")
+    }
   }
 }
 </script>

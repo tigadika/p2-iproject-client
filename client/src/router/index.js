@@ -28,6 +28,16 @@ const router = createRouter({
       path: "/dashboard",
       name: "dashboard",
       component: () => import("../views/DashboardPage.vue"),
+      children: [
+        {
+          path: "",
+          component: () => import("../views/ListPairPage.vue"),
+        },
+        {
+          path: ":pairId",
+          component: () => import("../views/PairPage.vue"),
+        },
+      ],
     },
   ],
 });
