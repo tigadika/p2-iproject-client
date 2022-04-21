@@ -7,11 +7,14 @@ export const useTickerStore = defineStore({
   getters: {},
   actions: {
     getTickerAction(id) {
-      return axios.get(`http://localhost:3000/main/ticker/${id}`, {
-        headers: {
-          access_token: localStorage.getItem("access_token"),
-        },
-      });
+      return axios.get(
+        `https://kriptoku-server.herokuapp.com/main/ticker/${id}`,
+        {
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+        }
+      );
     },
   },
 });

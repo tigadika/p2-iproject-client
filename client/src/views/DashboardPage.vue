@@ -1,14 +1,15 @@
 <template>
   <div>
     <div class="d-flex flex-row mx-2">
-      <SideBar></SideBar>
+      <SideBar :bookmarks="bookmarks"></SideBar>
       <div class="row">
         <div
           class="top d-flex flex-row mx-3 my-2 justify-content-between align-items-center"
         >
           <div class="input-group">
-            <form action="">
+            <form @submit.prevent="filterSearch" action="">
               <input
+                v-model="search"
                 type="search"
                 class="form-control rounded-pill"
                 placeholder="Search"
@@ -16,7 +17,13 @@
             </form>
           </div>
           <div class="mt-2">
-            <h2><i class="bi bi-person-circle"></i></h2>
+            <ButtonRound
+              @click="doLogout"
+              type="button"
+              text="logout"
+              bgColor="grey"
+              color="white"
+            ></ButtonRound>
           </div>
         </div>
         <router-view></router-view>
@@ -29,20 +36,47 @@
 import { RouterView } from "vue-router";
 import SideBar from "@/components/SideBar.vue";
 
-import { mapActions, mapWritableState } from "pinia";
+import { mapActions, mapState, mapWritableState } from "pinia";
+import { useBookmarkStore } from "@/stores/bookmark.js";
 import { usePairStore } from "@/stores/pair.js";
+import ButtonRound from "../components/ButtonRound.vue";
 
 export default {
   data() {
-    return {};
+    return {
+      search: "",
+    };
   },
   components: {
     SideBar,
     RouterView,
+    ButtonRound,
   },
-  methods: {},
-  computed: {},
-  mounted() {},
+  computed: {
+    ...mapState(useBookmarkStore, ["bookmarks"]),
+    ...mapWritableState(usePairStore, ["query"]),
+  },
+  methods: {
+    ...mapActions(useBookmarkStore, ["getBookmark"]),
+    ...mapActions(usePairStore, ["getPairsAll"]),
+    filterSearch() {
+      this.query = {
+        ...this.query,
+        search: this.search,
+      };
+
+      this.$router.push({ path: "dashboard", query: this.query });
+      this.getPairsAll();
+    },
+    doLogout() {
+      localStorage.clear()
+      this.$router.push("/");
+    }
+  },
+
+  mounted() {
+    this.getBookmark();
+  },
   created() {},
 };
 </script>

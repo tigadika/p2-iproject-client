@@ -1,5 +1,5 @@
 <template>
-  <div class="card border-0 shadow p-3" style="width: 100%">
+  <div class="card border-0 shadow p-3 mb-5" style="width: 100%">
     <h3>All Coins</h3>
     <table class="table table-hover table-striped">
       <thead>
@@ -28,6 +28,7 @@
 <script>
 import { mapActions, mapWritableState } from "pinia";
 import { usePairStore } from "@/stores/pair.js";
+import { useBookmarkStore } from "@/stores/bookmark.js";
 import TableBody from "../components/TableBody.vue";
 
 export default {

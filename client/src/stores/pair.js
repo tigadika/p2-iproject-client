@@ -79,13 +79,14 @@ export const usePairStore = defineStore({
     arimaErrors: [],
     suggest: "",
     tickerAll: [],
+    query: {},
   }),
   getters: {},
   actions: {
     async getRecordAction(id) {
       try {
         const { data } = await axios.get(
-          `http://localhost:3000/main/records/${id}`,
+          `https://kriptoku-server.herokuapp.com/main/records/${id}`,
           {
             headers: {
               access_token: localStorage.getItem("access_token"),
@@ -95,6 +96,7 @@ export const usePairStore = defineStore({
         this.option.title.text = data.data[0].Pair.name;
         this.option.series[0].name = data.data[0].Pair.name;
         this.option.legend.data.push(data.data[0].Pair.name);
+        this.nextStep = "";
 
         const time = data.data.map((el) => {
           const date = new Date(el.server_time * 1000).toLocaleString("en-US", {
@@ -131,7 +133,7 @@ export const usePairStore = defineStore({
     async getTickerAction(id) {
       try {
         const { data } = await axios.get(
-          `http://localhost:3000/main/ticker/${id}`,
+          `https://kriptoku-server.herokuapp.com/main/ticker/${id}`,
           {
             headers: {
               access_token: localStorage.getItem("access_token"),
@@ -148,7 +150,7 @@ export const usePairStore = defineStore({
     async getArima(id) {
       try {
         const { data } = await axios.get(
-          `http://localhost:3000/main/arima/${id}`,
+          `https://kriptoku-server.herokuapp.com/main/arima/${id}`,
           {
             headers: {
               access_token: localStorage.getItem("access_token"),
@@ -194,11 +196,17 @@ export const usePairStore = defineStore({
 
     async getPairsAll() {
       try {
-        const { data } = await axios.get(`http://localhost:3000/main/pairs`, {
-          headers: {
-            access_token: localStorage.getItem("access_token"),
-          },
-        });
+        const { data } = await axios.get(
+          `https://kriptoku-server.herokuapp.com/main/pairs`,
+          {
+            headers: {
+              access_token: localStorage.getItem("access_token"),
+            },
+            params: {
+              search: this.query.search,
+            },
+          }
+        );
 
         this.tickerAll = data.data;
       } catch (err) {
@@ -209,7 +217,7 @@ export const usePairStore = defineStore({
     async postRecord(id) {
       try {
         const { data } = await axios.post(
-          `http://localhost:3000/main/ticker/${id}`,
+          `https://kriptoku-server.herokuapp.com/main/ticker/${id}`,
           {},
           {
             headers: {
